@@ -66,5 +66,5 @@ fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amo
         }
 
     }
-    return "Ошибка 07"
+
 }
