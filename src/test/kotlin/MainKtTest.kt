@@ -10,7 +10,7 @@ class MainKtTest {
     fun calculateVK() {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.DOWN
-        val  currentMonthTransfer = 23_000_00.00
+        val  currentMonthTransfer = 30_000_00.00
         val amountTransfer = 13_900_00.00
 
         var result = calculate(currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
