@@ -4,6 +4,7 @@ import kotlin.jvm.internal.Intrinsics.Kotlin
 plugins {
     id ("java")
     id ("org.jetbrains.kotlin.jvm") version ("1.5.20")
+    id ("jacoco")
 }
 
 group = "org.example"
