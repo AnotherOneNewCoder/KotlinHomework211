@@ -28,41 +28,41 @@ fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amo
 
 
     when {
-        (typeCard == "MasterCard" || typeCard == "Maestro") -> when {
+        (typeCard == "MasterCard" || typeCard == "Maestro") -> return when {
             (amountTransfer < dayCardLimitTransfer && amountTransfer < beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> return "сумма перевода составит - ${amountTransfer / 100} без комиссии"
+                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer / 100} без комиссии"
 
             (amountTransfer < dayCardLimitTransfer && amountTransfer >= beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> return "сумма перевода составит - ${
+                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${
                 df.format(
                     (amountTransfer * 1.006 + 2000) / 100
                 )
             }руб, комиссия - " +
                     "${df.format((amountTransfer * 0.006 + 2000) / 100)} руб"
 
-            else -> return "Вы превысили лимиты! Перевод не осуществлён!"
+            else -> "Вы превысили лимиты! Перевод не осуществлён!"
         }
 
-        (typeCard == "Visa" || typeCard == "Мир") -> when {
+        (typeCard == "Visa" || typeCard == "Мир") -> return when {
             (amountTransfer < dayCardLimitTransfer && curentMonthTrasfer < monthCardLimitTransfer &&
                     (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> when {
-                (amountTransfer * 0.0075) < 3500 -> return "сумма перевода составит - ${(amountTransfer + 3500) / 100}руб, комиссия - 35 руб"
-                else -> return "сумма перевода составит - ${df.format((amountTransfer * 1.0075) / 100)}руб, комиссия - ${
+                (amountTransfer * 0.0075) < 3500 -> "сумма перевода составит - ${(amountTransfer + 3500) / 100}руб, комиссия - 35 руб"
+                else -> "сумма перевода составит - ${df.format((amountTransfer * 1.0075) / 100)}руб, комиссия - ${
                     df.format(
                         (amountTransfer * 0.0075) / 100
                     )
                 } руб"
             }
 
-            else -> return "Вы превысили лимиты! Перевод не осуществлён!"
+            else -> "Вы превысили лимиты! Перевод не осуществлён!"
 
         }
 
-        else -> when {
+        else -> return when {
             (amountTransfer < vkPerOnceLimit && curentMonthTrasfer < vkPerMonthLimit && (amountTransfer + curentMonthTrasfer) < vkPerMonthLimit) ->
-                return "сумма перевода составит - ${amountTransfer / 100} без комиссии"
+                "сумма перевода составит - ${amountTransfer / 100} без комиссии"
 
-            else -> return "Вы превысили лимиты! Перевод не осуществлён!"
+            else -> "Вы превысили лимиты! Перевод не осуществлён!"
         }
 
     }
