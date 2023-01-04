@@ -15,7 +15,7 @@ fun main() {
     }
 
 }
-fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amountTransfer : Double): String {
+fun calculate(typeCard :String = "VK Pay", currentMonthTransfer: Double = 0.0, amountTransfer : Double): String {
     // для округления
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
@@ -29,11 +29,11 @@ fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amo
 
     when {
         (typeCard == "MasterCard" || typeCard == "Maestro") -> return when {
-            (amountTransfer < dayCardLimitTransfer && amountTransfer < beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer / 100} без комиссии"
+            (amountTransfer < dayCardLimitTransfer && amountTransfer < beforeFee && currentMonthTransfer < monthCardLimitTransfer &&
+                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer / 100} без комиссии"
 
-            (amountTransfer < dayCardLimitTransfer && amountTransfer >= beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${
+            (amountTransfer < dayCardLimitTransfer && amountTransfer >= beforeFee && currentMonthTransfer < monthCardLimitTransfer &&
+                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${
                 df.format(
                     (amountTransfer * 1.006 + 2000) / 100
                 )
@@ -44,8 +44,8 @@ fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amo
         }
 
         (typeCard == "Visa" || typeCard == "Мир") -> return when {
-            (amountTransfer < dayCardLimitTransfer && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> when {
+            (amountTransfer < dayCardLimitTransfer && currentMonthTransfer < monthCardLimitTransfer &&
+                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> when {
                 (amountTransfer * 0.0075) < 3500 -> "сумма перевода составит - ${(amountTransfer + 3500) / 100}руб, комиссия - 35 руб"
                 else -> "сумма перевода составит - ${df.format((amountTransfer * 1.0075) / 100)}руб, комиссия - ${
                     df.format(
@@ -59,7 +59,7 @@ fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amo
         }
 
         else -> return when {
-            (amountTransfer < vkPerOnceLimit && curentMonthTrasfer < vkPerMonthLimit && (amountTransfer + curentMonthTrasfer) < vkPerMonthLimit) ->
+            (amountTransfer < vkPerOnceLimit && currentMonthTransfer < vkPerMonthLimit && (amountTransfer + currentMonthTransfer) < vkPerMonthLimit) ->
                 "сумма перевода составит - ${amountTransfer / 100} без комиссии"
 
             else -> "Вы превысили лимиты! Перевод не осуществлён!"
