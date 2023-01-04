@@ -18,6 +18,8 @@ dependencies {
     //testImplementation(kotlin("test"))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib")
     testImplementation ("junit:junit:4.13.2")
+    testImplementation("junit:junit:4.13.1")
+    testImplementation("junit:junit:4.13.1")
 }
 //
 tasks.test {
