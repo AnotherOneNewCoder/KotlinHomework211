@@ -16,34 +16,6 @@ fun main() {
     val vkPerOnceLimit = 15_000_00
     val vkPerMonthLimit = 40_000_00
 
-    fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amountTransfer : Double): String = when {
-        (typeCard == "MasterCard" || typeCard =="Maestro") -> when {
-            (amountTransfer < dayCardLimitTransfer && amountTransfer < beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer/100} без комиссии"
-            (amountTransfer < dayCardLimitTransfer && amountTransfer >= beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${df.format((amountTransfer * 1.006 + 2000)/100)}руб, комиссия - " +
-                    "${df.format((amountTransfer * 0.006 + 2000)/100)} руб"
-            else -> "Вы превысили лимиты! Перевод не осуществлён!"
-        }
-        (typeCard == "Visa"|| typeCard == "Мир") -> when {
-            (amountTransfer < dayCardLimitTransfer && curentMonthTrasfer < monthCardLimitTransfer &&
-                    (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> when {
-                (amountTransfer * 0.0075) < 3500 -> "сумма перевода составит - ${(amountTransfer + 3500) / 100}руб, комиссия - 35 руб"
-                else -> "сумма перевода составит - ${df.format((amountTransfer * 1.0075)/ 100)}руб, комиссия - ${df.format((amountTransfer * 0.0075)/100)} руб"
-            }
-            else -> "Вы превысили лимиты! Перевод не осуществлён!"
-
-        }
-        else -> when {
-            (amountTransfer < vkPerOnceLimit && curentMonthTrasfer < vkPerMonthLimit && (amountTransfer + curentMonthTrasfer) < vkPerMonthLimit) ->
-                "сумма перевода составит - ${amountTransfer/100} без комиссии"
-            else -> "Вы превысили лимиты! Перевод не осуществлён!"
-        }
-
-
-    }
-
-
     while (true){
         println("Введите сумму перевода в рублях: ")
         val userInput = (amount.nextDouble()*100); // сразу перевожу в копейки.
@@ -52,5 +24,31 @@ fun main() {
         println(calculate(amountTransfer = userInput))
 
     }
+
+}
+fun calculate(typeCard :String = "VK Pay", curentMonthTrasfer: Double = 0.0, amountTransfer : Double): String = when {
+    (typeCard == "MasterCard" || typeCard =="Maestro") -> when {
+        (amountTransfer < dayCardLimitTransfer && amountTransfer < beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
+                (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer/100} без комиссии"
+        (amountTransfer < dayCardLimitTransfer && amountTransfer >= beforeFee && curentMonthTrasfer < monthCardLimitTransfer &&
+                (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${df.format((amountTransfer * 1.006 + 2000)/100)}руб, комиссия - " +
+                "${df.format((amountTransfer * 0.006 + 2000)/100)} руб"
+        else -> "Вы превысили лимиты! Перевод не осуществлён!"
+    }
+    (typeCard == "Visa"|| typeCard == "Мир") -> when {
+        (amountTransfer < dayCardLimitTransfer && curentMonthTrasfer < monthCardLimitTransfer &&
+                (amountTransfer + curentMonthTrasfer) < monthCardLimitTransfer) -> when {
+            (amountTransfer * 0.0075) < 3500 -> "сумма перевода составит - ${(amountTransfer + 3500) / 100}руб, комиссия - 35 руб"
+            else -> "сумма перевода составит - ${df.format((amountTransfer * 1.0075)/ 100)}руб, комиссия - ${df.format((amountTransfer * 0.0075)/100)} руб"
+        }
+        else -> "Вы превысили лимиты! Перевод не осуществлён!"
+
+    }
+    else -> when {
+        (amountTransfer < vkPerOnceLimit && curentMonthTrasfer < vkPerMonthLimit && (amountTransfer + curentMonthTrasfer) < vkPerMonthLimit) ->
+            "сумма перевода составит - ${amountTransfer/100} без комиссии"
+        else -> "Вы превысили лимиты! Перевод не осуществлён!"
+    }
+
 
 }
