@@ -31,5 +31,17 @@ class MainKtTest {
 
 
     }
+    @Test
+    fun calculateVisa() {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        val  currentMonthTransfer = 500_000_00.00
+        val amountTransfer = 13_900_00.00
+        val card = "Visa"
 
+        val result = calculate(typeCard = card, currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
+        assertEquals("сумма перевода составит - 14004,25руб, комиссия - 104,25 руб", result)
+
+
+    }
 }
