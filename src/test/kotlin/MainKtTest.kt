@@ -3,6 +3,8 @@ import org.junit.Test
 import org.junit.Assert.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import ru.netology.*
+import ru.netology.calculate
 
 class MainKtTest {
 
