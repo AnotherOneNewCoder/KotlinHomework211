@@ -21,7 +21,7 @@ class MainKtTest {
 
     }
     @Test
-    fun calculateMaster() {
+    fun calculateMasterWithFee() {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.DOWN
         val  currentMonthTransfer = 500_000_00.00
@@ -30,6 +30,19 @@ class MainKtTest {
 
         val result = calculate(typeCard = card, currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
         assertEquals("сумма перевода составит - 84423,4руб, комиссия - 523,4 руб", result)
+
+
+    }
+    @Test
+    fun calculateMasterWithoutFee() {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        val  currentMonthTransfer = 500_000_00.00
+        val amountTransfer = 72_900_00.00
+        val card = "MasterCard"
+
+        val result = calculate(typeCard = card, currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
+        assertEquals("сумма перевода составит - 72900.0 руб без комиссии", result)
 
 
     }

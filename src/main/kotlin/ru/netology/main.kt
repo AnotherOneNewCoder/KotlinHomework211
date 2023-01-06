@@ -31,7 +31,7 @@ fun calculate(typeCard :String = "VK Pay", currentMonthTransfer: Double = 0.0, a
     when {
         (typeCard == "MasterCard" || typeCard == "Maestro") -> return when {
             (amountTransfer < dayCardLimitTransfer && amountTransfer < beforeFee && currentMonthTransfer < monthCardLimitTransfer &&
-                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer / 100} без комиссии"
+                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer / 100} руб без комиссии"
 
             (amountTransfer < dayCardLimitTransfer && amountTransfer >= beforeFee && currentMonthTransfer < monthCardLimitTransfer &&
                     (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${
