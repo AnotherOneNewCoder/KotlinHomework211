@@ -17,8 +17,16 @@ class MainKtTest {
 
         val result = calculate(currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
         assertEquals("сумма перевода составит - 13900.0 без комиссии", result)
+    }
+    @Test
+    fun calculateVKLimits() {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        val  currentMonthTransfer = 10_000_00.00
+        val amountTransfer = 33_900_00.00
 
-
+        val result = calculate(currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
+        assertEquals("Вы превысили лимиты! Перевод не осуществлён!", result)
     }
     @Test
     fun calculateMasterWithFee() {
@@ -47,6 +55,19 @@ class MainKtTest {
 
     }
     @Test
+    fun calculateMasterLimits() {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        val  currentMonthTransfer = 500_000_00.00
+        val amountTransfer = 100_900_00.00
+        val card = "MasterCard"
+
+        val result = calculate(typeCard = card, currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
+        assertEquals("Вы превысили лимиты! Перевод не осуществлён!", result)
+
+
+    }
+    @Test
     fun calculateVisa() {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.DOWN
@@ -56,6 +77,19 @@ class MainKtTest {
 
         val result = calculate(typeCard = card, currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
         assertEquals("сумма перевода составит - 14004,25руб, комиссия - 104,25 руб", result)
+
+
+    }
+    @Test
+    fun calculateVisaLimits() {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        val  currentMonthTransfer = 100_000_00.00
+        val amountTransfer = 163_900_00.00
+        val card = "Visa"
+
+        val result = calculate(typeCard = card, currentMonthTransfer = currentMonthTransfer , amountTransfer = amountTransfer)
+        assertEquals("Вы превысили лимиты! Перевод не осуществлён!", result)
 
 
     }
