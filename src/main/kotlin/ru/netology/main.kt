@@ -2,6 +2,12 @@ package ru.netology
 import java.util.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
+
+
+const val TRANSFERAMOUNT = "total transfer cost - "
+
+const val FEE = " fee - "
+const val ABOVELIMINT = "Limits exceeded! Transfer failed!"
 fun main() {
     val dayCardLimitTransfer = 150_000_00.00
     val monthCardLimitTransfer = 600_000_00.00
@@ -10,11 +16,11 @@ fun main() {
     val amount = Scanner(System.`in`).useLocale(Locale.US) // использую точку как delimiter, а не запятую
 
     while (true){
-        println("Введите сумму перевода в рублях: ")
+        println("Enter amount for transfer: ")
         val userInput = (amount.nextDouble()*100); // сразу перевожу в копейки.
         println(calculate("MasterCard", amountTransfer = userInput, dayCardLimitTransfer = dayCardLimitTransfer, monthCardLimitTransfer = monthCardLimitTransfer,
             beforeFee = beforeFee))
-        println(calculate("Мир",amountTransfer = userInput, dayCardLimitTransfer = dayCardLimitTransfer, monthCardLimitTransfer = monthCardLimitTransfer))
+        println(calculate("MIR",amountTransfer = userInput, dayCardLimitTransfer = dayCardLimitTransfer, monthCardLimitTransfer = monthCardLimitTransfer))
         println(calculate(amountTransfer = userInput))
 
     }
@@ -38,34 +44,30 @@ fun calculate(typeCard :String = "VK Pay", currentMonthTransfer: Double = 0.0, a
             (amountTransfer < dayCardLimitTransfer
                     && amountTransfer < beforeFee &&
                     currentMonthTransfer < monthCardLimitTransfer &&
-                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${amountTransfer / 100} руб без комиссии"
+                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> TRANSFERAMOUNT + df.format(amountTransfer / 100)
 
             (amountTransfer < dayCardLimitTransfer &&
                     amountTransfer >= beforeFee &&
                     currentMonthTransfer < monthCardLimitTransfer &&
-                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> "сумма перевода составит - ${
-                df.format(
-                    (amountTransfer * 1.006 + 2000) / 100
-                )
-            }руб, комиссия - " +
-                    "${df.format((amountTransfer * 0.006 + 2000) / 100)} руб"
+                    (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> TRANSFERAMOUNT + df.format(
+                        (amountTransfer * 1.006 + 2000) / 100
+                    ) + FEE +
+                    df.format((amountTransfer * 0.006 + 2000) / 100)
 
-            else -> "Вы превысили лимиты! Перевод не осуществлён!"
+            else -> ABOVELIMINT
         }
 
-        (typeCard == "Visa" || typeCard == "Мир") -> return when {
+        (typeCard == "Visa" || typeCard == "MIR") -> return when {
             (amountTransfer < dayCardLimitTransfer &&
                     currentMonthTransfer < monthCardLimitTransfer &&
                     (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) -> when {
-                (amountTransfer * 0.0075) < 3500 -> "сумма перевода составит - ${(amountTransfer + 3500) / 100}руб, комиссия - 35 руб"
-                else -> "сумма перевода составит - ${df.format((amountTransfer * 1.0075) / 100)}руб, комиссия - ${
-                    df.format(
-                        (amountTransfer * 0.0075) / 100
-                    )
-                } руб"
+                (amountTransfer * 0.0075) < 3500 -> TRANSFERAMOUNT + df.format((amountTransfer + 3500) / 100) + FEE + 35
+                else -> TRANSFERAMOUNT + df.format((amountTransfer * 1.0075) / 100) + FEE + df.format(
+                    (amountTransfer * 0.0075) / 100
+                )
             }
 
-            else -> "Вы превысили лимиты! Перевод не осуществлён!"
+            else -> ABOVELIMINT
 
         }
 
@@ -73,9 +75,9 @@ fun calculate(typeCard :String = "VK Pay", currentMonthTransfer: Double = 0.0, a
             (amountTransfer < dayCardLimitTransfer &&
                     currentMonthTransfer < monthCardLimitTransfer
                     && (amountTransfer + currentMonthTransfer) < monthCardLimitTransfer) ->
-                "сумма перевода составит - ${amountTransfer / 100} без комиссии"
+                TRANSFERAMOUNT + df.format(amountTransfer / 100)
 
-            else -> "Вы превысили лимиты! Перевод не осуществлён!"
+            else -> ABOVELIMINT
         }
 
     }
